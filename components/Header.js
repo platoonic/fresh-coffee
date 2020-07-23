@@ -1,7 +1,5 @@
 import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
-// UI Components
-import Dropdown from "./UI/Dropdown";
 // Images
 import Logo from "../assets/logo.png";
 

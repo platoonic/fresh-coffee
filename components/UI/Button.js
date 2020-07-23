@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-export default function ({ children, color, textColor, disabled }) {
+export default function ({ children, color, textColor, disabled, onPress }) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
@@ -52,7 +52,7 @@ export default function ({ children, color, textColor, disabled }) {
     );
   }
   return (
-    <TouchableOpacity style={[styles.button, buttonBG]}>
+    <TouchableOpacity style={[styles.button, buttonBG]} onPress={onPress}>
       <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
     </TouchableOpacity>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 // Screens
 import LocationSelection from "./screens/LocationSelection";
@@ -12,9 +12,15 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("./assets/fonts/FuturaBT-Medium.ttf"),
   });
+  const [deliveryLocation, setDeliveryLocation] = useState(null);
+
+  let screen;
+  if (deliveryLocation === null) {
+    screen = <LocationSelection setDeliveryLocation={setDeliveryLocation} />;
+  }
   return (
     <>
-      <LocationSelection />
+      {screen}
       <StatusBar style="dark" />
     </>
   );
