@@ -9,7 +9,14 @@ import {
   View,
 } from "react-native";
 
-export default function ({ children, color, textColor, disabled, onPress }) {
+export default function ({
+  children,
+  color,
+  textColor,
+  disabled,
+  onPress,
+  customStyles,
+}) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
@@ -42,17 +49,23 @@ export default function ({ children, color, textColor, disabled, onPress }) {
 
   if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
 
+  // Handle Disabled Buttons
   if (disabled) {
     return (
       <TouchableWithoutFeedback>
-        <View style={[styles.button, buttonBGdisabled]}>
+        <View style={[styles.button, buttonBGdisabled, customStyles]}>
           <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
   }
+
+  // Normal Active Buttons
   return (
-    <TouchableOpacity style={[styles.button, buttonBG]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, buttonBG, customStyles]}
+      onPress={onPress}
+    >
       <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
     </TouchableOpacity>
   );

@@ -10,6 +10,7 @@ import * as Location from "expo-location";
 import supportedLocations from "../components/utils/supportedLocations";
 // Custom Font (FuturaBT)
 import { useFonts } from "expo-font";
+// Supported Delivery Locations
 import supported_locations from "../components/utils/supportedLocations";
 
 export default function ({ setDeliveryLocation }) {
