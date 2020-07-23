@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
-  Animated,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { Entypo } from "@expo/vector-icons";
@@ -39,8 +38,19 @@ const Item = ({ name, setIsExpanded, setCurrentItem }) => {
   );
 };
 
+function buildObjectsFromItems(items) {
+  // Build an array of objects for values
+  const locations = items.map((location) => {
+    return {
+      name: location,
+      value: location.toLowerCase().split(" ").join("-"),
+    };
+  });
+  return locations;
+}
+
 // Dropdown Menu
-export default function ({ items }) {
+export default function ({ title, items }) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
@@ -48,7 +58,7 @@ export default function ({ items }) {
 
   // Dropdown State
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentItem, setCurrentItem] = useState("Governate");
+  const [currentItem, setCurrentItem] = useState("");
 
   // Add custom font (Use default system font until the font loads)
   let buttonFont = {};
@@ -57,6 +67,13 @@ export default function ({ items }) {
 
   // Chevron switch based on expanded or not
   const chevronIconName = isExpanded ? "chevron-thin-up" : "chevron-thin-down";
+
+  // Convert items array to object array (to append value property)
+  const itemsObject = buildObjectsFromItems(items);
+
+  useEffect(() => {
+    setCurrentItem(title);
+  }, [title]);
 
   return (
     <>
@@ -67,17 +84,22 @@ export default function ({ items }) {
       >
         <View style={styles.container}>
           <Text style={[styles.textStyle, buttonFont]}>{currentItem}</Text>
-          <Entypo
-            name={chevronIconName}
-            size={16}
-            style={[styles.chevronDown, { transform: [{ rotateY: "200deg" }] }]}
-          />
+          {items.length > 0 && (
+            <Entypo
+              name={chevronIconName}
+              size={16}
+              style={[
+                styles.chevronDown,
+                { transform: [{ rotateY: "200deg" }] },
+              ]}
+            />
+          )}
         </View>
       </TouchableWithoutFeedback>
       {isExpanded && (
         <TouchableOpacity>
           <FlatList
-            data={items}
+            data={itemsObject}
             keyExtractor={(item) => item.value}
             renderItem={({ item }) => {
               return (
