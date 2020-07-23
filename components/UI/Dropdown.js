@@ -21,6 +21,7 @@ const Item = ({ name, setIsExpanded, setCurrentItem }) => {
   // Add custom font (Use default system font until the font loads)
   let buttonFont = {
     fontSize: 16,
+    color: "white",
   };
 
   if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
@@ -54,6 +55,9 @@ export default function ({ items }) {
 
   if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
 
+  // Chevron switch based on expanded or not
+  const chevronIconName = isExpanded ? "chevron-thin-up" : "chevron-thin-down";
+
   return (
     <>
       <TouchableWithoutFeedback
@@ -64,7 +68,7 @@ export default function ({ items }) {
         <View style={styles.container}>
           <Text style={[styles.textStyle, buttonFont]}>{currentItem}</Text>
           <Entypo
-            name="chevron-thin-down"
+            name={chevronIconName}
             size={16}
             style={[styles.chevronDown, { transform: [{ rotateY: "200deg" }] }]}
           />
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   item: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#595959",
     padding: 17,
     marginVertical: 3,
     borderRadius: 50,
