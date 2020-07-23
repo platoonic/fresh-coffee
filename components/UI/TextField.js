@@ -8,14 +8,20 @@ export default function ({ placeholder }) {
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
   });
 
-  return <TextInput style={styles.input} placeholder={placeholder} />;
+  // Add custom font (Use default system font until the font loads)
+  let buttonFont = {};
+
+  if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
+
+  return (
+    <TextInput style={[styles.input, buttonFont]} placeholder={placeholder} />
+  );
 }
 
 const styles = StyleSheet.create({
   input: {
     backgroundColor: "#fff",
     padding: 17,
-    fontFamily: "FuturaBT-Medium",
     fontSize: 16,
     borderRadius: 50,
     marginVertical: 10,
@@ -29,11 +35,3 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
 });
-
-/*
-
-background: #FFFFFF;
-box-shadow: 0 2px 20px 0 rgba(0,0,0,0.06);
-border-radius: 25px;
-
-*/

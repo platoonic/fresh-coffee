@@ -24,6 +24,7 @@ export default function ({ children, color, textColor, disabled }) {
 
   const textColorMap = {
     white: "#fff",
+    gray: "#595959",
   };
 
   // Button color from props (Green by default)
@@ -36,18 +37,23 @@ export default function ({ children, color, textColor, disabled }) {
     backgroundColor: BGcolorMap.disabled,
   };
 
+  // Add custom font (Use default system font until the font loads)
+  let buttonFont = {};
+
+  if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
+
   if (disabled) {
     return (
       <TouchableWithoutFeedback>
         <View style={[styles.button, buttonBGdisabled]}>
-          <Text style={styles.buttonText}>{children}</Text>
+          <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
   }
   return (
     <TouchableOpacity style={[styles.button, buttonBG]}>
-      <Text style={styles.buttonText}>{children}</Text>
+      <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
     </TouchableOpacity>
   );
 }
@@ -70,6 +76,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: "white",
-    fontFamily: "FuturaBT-Medium",
   },
 });
