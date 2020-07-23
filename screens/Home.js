@@ -1,15 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 // Components
 import Header from "../components/Header";
-import FeaturedProducts from "../components/FeaturedProducts";
+
+import Products from "../components/Products";
 
 export default function () {
   return (
     <>
       <Header showControls />
       <View style={styles.container}>
-        <FeaturedProducts />
+        <Products />
       </View>
     </>
   );
@@ -18,5 +19,6 @@ export default function () {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 40,
+    flex: 1,
   },
 });
