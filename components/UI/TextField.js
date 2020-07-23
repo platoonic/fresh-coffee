@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
@@ -8,13 +8,30 @@ export default function ({ placeholder }) {
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
   });
 
+  // Text Field State
+  const [isFocused, setIsFocused] = useState(false);
+
   // Add custom font (Use default system font until the font loads)
   let buttonFont = {};
 
   if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
 
+  // Add custom styling for focus state
+  let buttonStyle = {};
+
+  if (isFocused) buttonStyle = styles.buttonOnFocus;
+
   return (
-    <TextInput style={[styles.input, buttonFont]} placeholder={placeholder} />
+    <TextInput
+      style={[styles.input, buttonStyle, buttonFont]}
+      onFocus={() => {
+        setIsFocused(true);
+      }}
+      onBlur={() => {
+        setIsFocused(false);
+      }}
+      placeholder={placeholder}
+    />
   );
 }
 
@@ -33,5 +50,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 15.65,
     elevation: 8,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#fff",
+  },
+  buttonOnFocus: {
+    borderColor: "#B7D295",
   },
 });
