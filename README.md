@@ -6,7 +6,7 @@ FreshCoffee is a cross-platform mobile application for a dummy coffee shop purel
 - Clean and minimal User Interface
 - Specialized component to showcase featured products
 - Location detection for delivery options
-- Accounts / Guest systems for paying for goods.
+- Accounts / Guest systems to pay for coffee.
 # Tech Stack
 - React Native
 - Expo
