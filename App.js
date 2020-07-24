@@ -31,7 +31,12 @@ export default function App() {
   const [deliveryLocation, setDeliveryLocation] = useState(null);
 
   if (deliveryLocation === null) {
-    return <LocationSelection setDeliveryLocation={setDeliveryLocation} />;
+    return (
+      <>
+        <LocationSelection setDeliveryLocation={setDeliveryLocation} />
+        <StatusBar style="dark" />
+      </>
+    );
   }
   return (
     <Provider store={Store}>
