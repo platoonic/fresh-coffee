@@ -6,7 +6,7 @@ const cartItems = (state) => state.cartReducer;
 // Calculate total price of cart items
 const calculateTotal = (cartItems) => {
   const totalPrice = cartItems.reduce((sum, item) => {
-    const price = Number(item.price);
+    const price = Number(item.price) * item.quantity;
     return sum + price;
   }, 0);
   return totalPrice.toFixed(2);
