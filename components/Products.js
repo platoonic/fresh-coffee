@@ -48,7 +48,8 @@ export default function () {
 
 const styles = StyleSheet.create({
   products: {
-    marginTop: 30,
+    paddingTop: 30,
     paddingBottom: 50,
+    backgroundColor: "white",
   },
 });
