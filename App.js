@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+// Redux
+import { Provider } from "react-redux";
+import Store from "./redux/store";
 // Screens
 import LocationSelection from "./screens/LocationSelection";
 import Home from "./screens/Home";
@@ -31,24 +34,26 @@ export default function App() {
     return <LocationSelection setDeliveryLocation={setDeliveryLocation} />;
   }
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={Cart}
-          options={{
-            headerStyle: styles.header,
-            headerTitleStyle: FuturaBT,
-          }}
-        />
-      </Stack.Navigator>
-      <StatusBar style="dark" />
-    </NavigationContainer>
+    <Provider store={Store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={Cart}
+            options={{
+              headerStyle: styles.header,
+              headerTitleStyle: FuturaBT,
+            }}
+          />
+        </Stack.Navigator>
+        <StatusBar style="dark" />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

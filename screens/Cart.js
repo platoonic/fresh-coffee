@@ -4,8 +4,10 @@ import { View, Text, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 // UI Components
 import Button from "../components/UI/Button";
+// Redux
+import { connect } from "react-redux";
 
-export default function () {
+function Cart({ cartItems }) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
@@ -23,18 +25,6 @@ export default function () {
   // Cart component state
   const [total, setTotal] = useState("25.00");
   const deliveryCharges = "10.00";
-  const cartItems = [
-    {
-      name: "Caramel Cappuccino",
-      quantity: 1,
-      price: "17.00",
-    },
-    {
-      name: "Flat White",
-      quantity: 1,
-      price: "11.00",
-    },
-  ];
 
   // Calculate total price of cart items
   useEffect(() => {
@@ -134,3 +124,9 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
 });
+
+const mapStateToProps = (state) => ({
+  cartItems: state.cartReducer,
+});
+
+export default connect(mapStateToProps, null)(Cart);
