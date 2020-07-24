@@ -4,26 +4,10 @@
  *
  */
 
-const defaultCart = [
-  {
-    id: "2314",
-    name: "Caramel Cappuccino",
-    quantity: 1,
-    price: "17.00",
-  },
-];
-
-const cart = (state = defaultCart, action) => {
+const cart = (state = [], action) => {
   switch (action.type) {
     case "ADD_TO_CART":
-      return [
-        ...state,
-        {
-          id: action.item.id,
-          name: action.item.name,
-          price: action.item.price,
-        },
-      ];
+      return [...state, action.item];
     default:
       return state;
   }

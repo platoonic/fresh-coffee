@@ -6,8 +6,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 // UI Components
 import Button from "./UI/Button";
+// Redux
+import { connect } from "react-redux";
+import { addToCart } from "../redux/actions/cart";
 
-export default function ({ item }) {
+function FeaturedProduct({ featuredItem, addToCart }) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
@@ -21,10 +24,21 @@ export default function ({ item }) {
     FuturaBT.fontFamily = "FuturaBT-Medium";
     FuturaBTBold.fontFamily = "Futura-Bold";
   }
+
+  const addItemToCart = () => {
+    const item = {
+      id: featuredItem.id,
+      name: featuredItem.name,
+      price: featuredItem.price,
+      quantity: 1,
+    };
+    addToCart(item);
+  };
+
   return (
     <>
       <View style={styles.featuredProduct}>
-        <Image source={item.image} style={styles.largeCoffeeCup} />
+        <Image source={featuredItem.image} style={styles.largeCoffeeCup} />
         <LinearGradient
           colors={["#DCD5C0", "#564F3A"]}
           style={styles.featuredProductData}
@@ -32,10 +46,10 @@ export default function ({ item }) {
           <View style={styles.dataWrapper}>
             <View style={styles.featuredProductTitle}>
               <Text style={[styles.featuredProductTitle, FuturaBTBold]}>
-                {item.name}
+                {featuredItem.name}
               </Text>
               <Text style={[styles.featuredProductDesc, FuturaBT]}>
-                {item.desc}
+                {featuredItem.desc}
               </Text>
             </View>
             <View style={styles.featuredProductPrice}>
@@ -45,13 +59,20 @@ export default function ({ item }) {
                   FuturaBT,
                 ]}
               >
-                {item.price}
+                ${featuredItem.price}
               </Text>
             </View>
           </View>
         </LinearGradient>
       </View>
-      <Button customStyles={styles.cartButton}>ADD TO CART</Button>
+      <Button
+        onPress={() => {
+          addItemToCart();
+        }}
+        customStyles={styles.cartButton}
+      >
+        ADD TO CART
+      </Button>
     </>
   );
 }
@@ -100,3 +121,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (item) => dispatch(addToCart(item)),
+});
+
+export default connect(null, mapDispatchToProps)(FeaturedProduct);

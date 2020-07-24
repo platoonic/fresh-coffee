@@ -11,16 +11,18 @@ import FeaturedProduct from "./FeaturedProduct";
 export default function () {
   const featuredItems = [
     {
+      id: 6,
       name: "Caramel Cappuccino",
       desc: "Tasty Cappuccino infused with Caramel Sauce",
       image: CoffeeCupLarge01,
-      price: "$17.00",
+      price: "19.00",
     },
     {
-      name: "Espresso",
-      desc: "Tasty espresso made with fresh beans",
+      id: 19,
+      name: "Decaf Espresso",
+      desc: "Decaffienated espresso made with fresh beans",
       image: CoffeeCupLarge01,
-      price: "$12.00",
+      price: "15.00",
     },
   ];
 
@@ -30,7 +32,9 @@ export default function () {
         <Carousel
           data={featuredItems}
           layout={"default"}
-          renderItem={({ item, index }) => <FeaturedProduct item={item} />}
+          renderItem={({ item, index }) => (
+            <FeaturedProduct featuredItem={item} />
+          )}
           sliderWidth={400}
           itemWidth={370}
         />
