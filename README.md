@@ -10,5 +10,6 @@ FreshCoffee is a cross-platform mobile application for a dummy coffee shop purel
 # Tech Stack
 - React Native
 - Expo
+- Redux
 - NodeJS
 - Express
