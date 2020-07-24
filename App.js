@@ -28,6 +28,7 @@ export default function App() {
   if (fontsLoaded) FuturaBT.fontFamily = "FuturaBT-Medium";
 
   // App component
+  // REFECTOR HERE to save location in Redux store
   const [deliveryLocation, setDeliveryLocation] = useState(null);
 
   if (deliveryLocation === null) {
