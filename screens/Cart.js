@@ -40,6 +40,7 @@ function Cart({ cartItems, cartTotal }) {
 
   return (
     <View style={styles.container}>
+      {/* Render Cart Items */}
       <View style={styles.cartItems}>
         {cartItems.map((item) => {
           return (
@@ -63,22 +64,32 @@ function Cart({ cartItems, cartTotal }) {
             </View>
           );
         })}
-        <View style={styles.item}>
-          <Text style={[FuturaBT, styles.title, { color: "#ABABAB" }]}>
-            Delivery Charges
+      </View>
+      {/* Render Subtotal */}
+      <View style={[styles.item, { marginTop: 15 }]}>
+        <Text style={[FuturaBT, styles.title]}>Subtotal</Text>
+        <View style={styles.price}>
+          <Text style={(FuturaBT, { fontSize: 17, textAlign: "right" })}>
+            ${cartTotal}
           </Text>
-          <View style={styles.price}>
-            <Text
-              style={
-                (FuturaBT,
-                { fontSize: 17, textAlign: "right", color: "#ABABAB" })
-              }
-            >
-              ${deliveryCharges}
-            </Text>
-          </View>
         </View>
       </View>
+      {/* Render Delivery Charges */}
+      <View style={[styles.item]}>
+        <Text style={[FuturaBT, styles.title, { color: "#ABABAB" }]}>
+          Delivery Charges
+        </Text>
+        <View style={styles.price}>
+          <Text
+            style={
+              (FuturaBT, { fontSize: 17, textAlign: "right", color: "#ABABAB" })
+            }
+          >
+            ${deliveryCharges}
+          </Text>
+        </View>
+      </View>
+      {/* Render Total */}
       <View style={[styles.item, styles.total]}>
         <Text style={[FuturaBTBold, styles.title]}>Total</Text>
         <View style={styles.price}>
