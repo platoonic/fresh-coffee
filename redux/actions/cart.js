@@ -14,12 +14,8 @@ export const removeFromCart = (itemID) => ({
   itemID,
 });
 
-export const increaseQuantity = (itemID) => ({
-  type: "INCRASE_QUANTITY",
+export const changeQuantity = (itemID, newQuantity) => ({
+  type: "CHANGE_QUANTITY",
   itemID,
-});
-
-export const decreaseQuantity = (itemID) => ({
-  type: "DECREASE_QUANTITY",
-  itemID,
+  newQuantity,
 });
