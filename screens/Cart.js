@@ -1,28 +1,17 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 // Custom Font (FuturaBT)
 import { useFonts } from "expo-font";
 // UI Components
 import Button from "../components/UI/Button";
+import CustomText from "../components/UI/CustomText";
+// Components
+import CartItem from "./CartItem";
 // Redux
 import { connect } from "react-redux";
 import { getCartItems } from "../redux/selectors/cartItems";
 
 function Cart({ cartItems, cartTotal }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
-    "Futura-Bold": require("../assets/fonts/Futura-Bold.ttf"),
-  });
-
-  const FuturaBT = {};
-  const FuturaBTBold = {};
-
-  if (fontsLoaded) {
-    FuturaBT.fontFamily = "FuturaBT-Medium";
-    FuturaBTBold.fontFamily = "Futura-Bold";
-  }
-
   // Cart component state
   const deliveryCharges = "10.00";
   const total = (Number(cartTotal) + Number(deliveryCharges)).toFixed(2);
@@ -31,9 +20,9 @@ function Cart({ cartItems, cartTotal }) {
   if (cartItems.length === 0) {
     return (
       <View style={styles.container}>
-        <Text style={[FuturaBT, { fontSize: 19, alignSelf: "center" }]}>
+        <CustomText style={[FuturaBT, { fontSize: 19, alignSelf: "center" }]}>
           Your Cart is Empty!
-        </Text>
+        </CustomText>
       </View>
     );
   }
@@ -44,58 +33,47 @@ function Cart({ cartItems, cartTotal }) {
       <View style={styles.cartItems}>
         {cartItems.map((item) => {
           return (
-            <View style={styles.item} key={item.id}>
-              <Text style={[FuturaBT, styles.title]}>{item.name}</Text>
-              <View style={styles.quantity}>
-                <Text
-                  style={
-                    (FuturaBT,
-                    { fontSize: 17, textAlign: "center", color: "white" })
-                  }
-                >
-                  {item.quantity}
-                </Text>
-              </View>
-              <View style={styles.price}>
-                <Text style={(FuturaBT, { fontSize: 17, textAlign: "right" })}>
-                  ${item.price}
-                </Text>
-              </View>
-            </View>
+            <CartItem
+              key={item.id}
+              id={item.id}
+              quantity={item.quantity}
+              name={item.name}
+              price={item.price}
+            />
           );
         })}
       </View>
       {/* Render Subtotal */}
       <View style={[styles.item, { marginTop: 15 }]}>
-        <Text style={[FuturaBT, styles.title]}>Subtotal</Text>
+        <CustomText style={styles.title}>Subtotal</CustomText>
         <View style={styles.price}>
-          <Text style={(FuturaBT, { fontSize: 17, textAlign: "right" })}>
+          <CustomText style={{ fontSize: 17, textAlign: "right" }}>
             ${cartTotal}
-          </Text>
+          </CustomText>
         </View>
       </View>
       {/* Render Delivery Charges */}
       <View style={[styles.item]}>
-        <Text style={[FuturaBT, styles.title, { color: "#ABABAB" }]}>
+        <CustomText style={(styles.title, { color: "#ABABAB" })}>
           Delivery Charges
-        </Text>
+        </CustomText>
         <View style={styles.price}>
-          <Text
-            style={
-              (FuturaBT, { fontSize: 17, textAlign: "right", color: "#ABABAB" })
-            }
+          <CustomText
+            style={{ fontSize: 17, textAlign: "right", color: "#ABABAB" }}
           >
             ${deliveryCharges}
-          </Text>
+          </CustomText>
         </View>
       </View>
       {/* Render Total */}
       <View style={[styles.item, styles.total]}>
-        <Text style={[FuturaBTBold, styles.title]}>Total</Text>
+        <CustomText style={styles.title} bold>
+          Total
+        </CustomText>
         <View style={styles.price}>
-          <Text style={[FuturaBTBold, { fontSize: 17, textAlign: "right" }]}>
+          <CustomText style={{ fontSize: 17, textAlign: "right" }}>
             ${total}
-          </Text>
+          </CustomText>
         </View>
       </View>
       <Button>Checkout</Button>

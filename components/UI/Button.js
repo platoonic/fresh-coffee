@@ -1,13 +1,11 @@
 import React from "react";
-import { useFonts } from "expo-font";
-
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Text,
   StyleSheet,
   View,
 } from "react-native";
+import CustomText from "./CustomText";
 
 export default function ({
   children,
@@ -17,11 +15,6 @@ export default function ({
   onPress,
   customStyles,
 }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
-  });
-
   const BGcolorMap = {
     green: "#B7D295",
     gray: "#595959",
@@ -44,17 +37,12 @@ export default function ({
     backgroundColor: BGcolorMap.disabled,
   };
 
-  // Add custom font (Use default system font until the font loads)
-  let buttonFont = {};
-
-  if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
-
   // Handle Disabled Buttons
   if (disabled) {
     return (
       <TouchableWithoutFeedback>
         <View style={[styles.button, buttonBGdisabled, customStyles]}>
-          <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
+          <CustomText style={styles.buttonText}>{children}</CustomText>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -66,7 +54,7 @@ export default function ({
       style={[styles.button, buttonBG, customStyles]}
       onPress={onPress}
     >
-      <Text style={[styles.buttonText, buttonFont]}>{children}</Text>
+      <CustomText style={styles.buttonText}>{children}</CustomText>
     </TouchableOpacity>
   );
 }

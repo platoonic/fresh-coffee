@@ -1,19 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 // UI Components
 import Button from "../components/UI/Button";
-// Custom Font (FuturaBT)
-import { useFonts } from "expo-font";
+import CustomText from "../components/UI/CustomText";
 // Redux
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions/cart";
 
 function Product({ id, name, price, image, addToCart }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
-  });
-
   const addItemToCart = () => {
     const item = {
       id,
@@ -24,14 +18,11 @@ function Product({ id, name, price, image, addToCart }) {
     addToCart(item);
   };
 
-  const FuturaBT = {};
-
-  if (fontsLoaded) FuturaBT.fontFamily = "FuturaBT-Medium";
   return (
     <View style={styles.container}>
       <Image source={image} style={{ width: 111, height: 170 }} />
-      <Text style={[styles.name, FuturaBT]}>{name}</Text>
-      <Text style={[styles.price, FuturaBT]}>${price}</Text>
+      <CustomText style={styles.name}>{name}</CustomText>
+      <CustomText style={styles.price}>${price}</CustomText>
       <Button onPress={() => addItemToCart()}>Add to Cart</Button>
     </View>
   );

@@ -1,30 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 // Helpers
 import { LinearGradient } from "expo-linear-gradient";
-// Custom Font (FuturaBT)
-import { useFonts } from "expo-font";
 // UI Components
 import Button from "./UI/Button";
+import CustomText from "./UI/CustomText";
 // Redux
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions/cart";
 
 function FeaturedProduct({ featuredItem, addToCart }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
-    "Futura-Bold": require("../assets/fonts/Futura-Bold.ttf"),
-  });
-
-  const FuturaBT = {};
-  const FuturaBTBold = {};
-
-  if (fontsLoaded) {
-    FuturaBT.fontFamily = "FuturaBT-Medium";
-    FuturaBTBold.fontFamily = "Futura-Bold";
-  }
-
   const addItemToCart = () => {
     const item = {
       id: featuredItem.id,
@@ -45,22 +30,19 @@ function FeaturedProduct({ featuredItem, addToCart }) {
         >
           <View style={styles.dataWrapper}>
             <View style={styles.featuredProductTitle}>
-              <Text style={[styles.featuredProductTitle, FuturaBTBold]}>
+              <CustomText style={styles.featuredProductTitle} bold>
                 {featuredItem.name}
-              </Text>
-              <Text style={[styles.featuredProductDesc, FuturaBT]}>
+              </CustomText>
+              <CustomText style={styles.featuredProductDesc}>
                 {featuredItem.desc}
-              </Text>
+              </CustomText>
             </View>
             <View style={styles.featuredProductPrice}>
-              <Text
-                style={[
-                  { fontSize: 16, color: "#CAC1A7", paddingTop: 20 },
-                  FuturaBT,
-                ]}
+              <CustomText
+                style={{ fontSize: 16, color: "#CAC1A7", paddingTop: 20 }}
               >
                 ${featuredItem.price}
-              </Text>
+              </CustomText>
             </View>
           </View>
         </LinearGradient>
