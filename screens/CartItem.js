@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 // UI Components
 import CustomText from "../components/UI/CustomText";
+// RN Pickr
+import RNPickerSelect from "react-native-picker-select";
+// Redux
+import { connect } from "react-redux";
+import { changeQuantity } from "../redux/actions/cart";
 
-export default function CartItem({ id, name, quantity, price }) {
+function CartItem({ id, name, quantity, price, changeQuantity }) {
   return (
     <View style={styles.item} key={id}>
       <CustomText style={styles.title}>{name}</CustomText>
       <View style={styles.quantity}>
-        <CustomText
-          style={{ fontSize: 17, textAlign: "center", color: "white" }}
-        >
-          {quantity}
-        </CustomText>
+        <RNPickerSelect
+          onValueChange={(value) => {
+            changeQuantity(id, value);
+          }}
+          placeholder={{}}
+          style={pickerStyles}
+          items={[
+            { label: "1", value: 1 },
+            { label: "2", value: 2 },
+            { label: "3", value: 3 },
+            { label: "4", value: 4 },
+            { label: "5", value: 5 },
+            { label: "6", value: 6 },
+            { label: "7", value: 7 },
+            { label: "8", value: 8 },
+            { label: "9", value: 9 },
+            { label: "10", value: 10 },
+          ]}
+          value={quantity}
+        />
       </View>
       <View style={styles.price}>
         <CustomText style={{ fontSize: 17, textAlign: "right" }}>
@@ -39,10 +59,27 @@ const styles = StyleSheet.create({
     paddingTop: 7,
   },
   quantity: {
-    flex: 0.3,
+    flex: 0.4,
+    borderRadius: 20,
     backgroundColor: "#B4B590",
-    borderRadius: 50,
-    width: 20,
-    paddingVertical: 7,
+    paddingBottom: 7,
   },
 });
+
+const pickerStyles = StyleSheet.create({
+  inputIOS: {
+    textAlign: "center",
+    color: "white",
+    paddingTop: 7,
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeQuantity: (itemID, newQuantity) => {
+    dispatch(changeQuantity(itemID, newQuantity));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(CartItem);

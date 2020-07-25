@@ -1,7 +1,5 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-// Custom Font (FuturaBT)
-import { useFonts } from "expo-font";
 // UI Components
 import Button from "../components/UI/Button";
 import CustomText from "../components/UI/CustomText";
@@ -20,7 +18,7 @@ function Cart({ cartItems, cartTotal }) {
   if (cartItems.length === 0) {
     return (
       <View style={styles.container}>
-        <CustomText style={[FuturaBT, { fontSize: 19, alignSelf: "center" }]}>
+        <CustomText style={{ fontSize: 19, alignSelf: "center" }}>
           Your Cart is Empty!
         </CustomText>
       </View>
@@ -54,7 +52,7 @@ function Cart({ cartItems, cartTotal }) {
       </View>
       {/* Render Delivery Charges */}
       <View style={[styles.item]}>
-        <CustomText style={(styles.title, { color: "#ABABAB" })}>
+        <CustomText style={[styles.title, { color: "#ABABAB" }]}>
           Delivery Charges
         </CustomText>
         <View style={styles.price}>
@@ -71,7 +69,7 @@ function Cart({ cartItems, cartTotal }) {
           Total
         </CustomText>
         <View style={styles.price}>
-          <CustomText style={{ fontSize: 17, textAlign: "right" }}>
+          <CustomText style={{ fontSize: 17, textAlign: "right" }} bold>
             ${total}
           </CustomText>
         </View>
@@ -105,13 +103,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "right",
     paddingTop: 7,
-  },
-  quantity: {
-    flex: 0.3,
-    backgroundColor: "#B4B590",
-    borderRadius: 50,
-    width: 20,
-    paddingVertical: 7,
   },
   total: {
     marginTop: 13,
