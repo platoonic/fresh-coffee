@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 // UI Components
-import CustomText from "../components/UI/CustomText";
+import CustomText from "./UI/CustomText";
 // RN Pickr
 import RNPickerSelect from "react-native-picker-select";
 // Icons

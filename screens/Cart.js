@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import Button from "../components/UI/Button";
 import CustomText from "../components/UI/CustomText";
 // Components
-import CartItem from "./CartItem";
+import CartItem from "../components/CartItem";
 // Redux
 import { connect } from "react-redux";
 import { getCartItems } from "../redux/selectors/cartItems";
