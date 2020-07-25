@@ -59,7 +59,6 @@ export default function ({ setDeliveryLocation }) {
             onPress={() => {
               setDeliveryLocation(location);
             }}
-            disabled={errorMsg === null ? false : true}
           >
             Continue
           </Button>

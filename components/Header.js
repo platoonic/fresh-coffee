@@ -27,7 +27,7 @@ function Header({ showControls, navigation, cartCount }) {
           <TouchableOpacity
             style={[styles.icon, styles.cartIcon]}
             onPress={() => {
-              navigation.navigate("Cart");
+              navigation.navigate("Cart", { navigation });
             }}
           >
             <Feather name="shopping-cart" size={24} color="black" />

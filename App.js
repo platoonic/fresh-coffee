@@ -7,6 +7,7 @@ import Store from "./redux/store";
 import LocationSelection from "./screens/LocationSelection";
 import Home from "./screens/Home";
 import Cart from "./screens/Cart";
+import Checkout from "./screens/Checkout";
 // Custom Fonts
 import { useFonts } from "expo-font";
 // Status Bar
@@ -33,10 +34,10 @@ export default function App() {
 
   if (deliveryLocation === null) {
     return (
-      <>
+      <Provider store={Store}>
         <LocationSelection setDeliveryLocation={setDeliveryLocation} />
         <StatusBar style="dark" />
-      </>
+      </Provider>
     );
   }
   return (
@@ -51,6 +52,14 @@ export default function App() {
           <Stack.Screen
             name="Cart"
             component={Cart}
+            options={{
+              headerStyle: styles.header,
+              headerTitleStyle: FuturaBT,
+            }}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={Checkout}
             options={{
               headerStyle: styles.header,
               headerTitleStyle: FuturaBT,
