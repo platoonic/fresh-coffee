@@ -4,11 +4,14 @@ import { View, StyleSheet } from "react-native";
 import CustomText from "../components/UI/CustomText";
 // RN Pickr
 import RNPickerSelect from "react-native-picker-select";
+// Icons
+import { Entypo } from "@expo/vector-icons";
 // Redux
 import { connect } from "react-redux";
 import { changeQuantity } from "../redux/actions/cart";
 
 function CartItem({ id, name, quantity, price, changeQuantity }) {
+  const maximumQuantity = 10;
   return (
     <View style={styles.item} key={id}>
       <CustomText style={styles.title}>{name}</CustomText>
@@ -19,19 +22,20 @@ function CartItem({ id, name, quantity, price, changeQuantity }) {
           }}
           placeholder={{}}
           style={pickerStyles}
-          items={[
-            { label: "1", value: 1 },
-            { label: "2", value: 2 },
-            { label: "3", value: 3 },
-            { label: "4", value: 4 },
-            { label: "5", value: 5 },
-            { label: "6", value: 6 },
-            { label: "7", value: 7 },
-            { label: "8", value: 8 },
-            { label: "9", value: 9 },
-            { label: "10", value: 10 },
-          ]}
+          items={new Array(maximumQuantity).fill({}).map((item, index) => ({
+            label: String(index + 1),
+            value: index + 1,
+          }))}
           value={quantity}
+          Icon={() => {
+            return (
+              <Entypo
+                name="chevron-thin-down"
+                size={16}
+                style={[styles.chevronDown]}
+              />
+            );
+          }}
         />
       </View>
       <View style={styles.price}>
@@ -64,6 +68,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#B4B590",
     paddingBottom: 7,
   },
+  chevronDown: {
+    color: "#cbcca7",
+    paddingTop: 9,
+  },
 });
 
 const pickerStyles = StyleSheet.create({
@@ -71,8 +79,13 @@ const pickerStyles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     paddingTop: 7,
+    paddingLeft: 6,
     fontWeight: "bold",
     fontSize: 17,
+    width: 30,
+  },
+  iconContainer: {
+    marginRight: 9,
   },
 });
 
