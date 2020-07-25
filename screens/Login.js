@@ -4,14 +4,11 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
-  Image,
 } from "react-native";
 // UI Components
 import CustomText from "../components/UI/CustomText";
 import Button from "../components/UI/Button";
 import TextField from "../components/UI/TextField";
-// Images
-import Logo from "../assets/logo.png";
 
 function Login() {
   const [errors, setErrors] = useState({
@@ -23,12 +20,13 @@ function Login() {
   // Email Validation
   const validateEmail = (email) => {
     let newErrors = Object.assign({}, errors);
-    newErrors.email.validated = false;
 
     if (email == "") {
       newErrors.email.error = "Hey you left me empty!";
+      newErrors.email.validated = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email.error = "This is not an email.";
+      newErrors.email.validated = false;
     } else {
       newErrors.email.error = "";
       newErrors.email.validated = true;
@@ -37,13 +35,13 @@ function Login() {
     setErrors(newErrors);
   };
 
-  // Password Validation
+  // Email Validation
   const validatePassword = (password) => {
     let newErrors = Object.assign({}, errors);
-    newErrors.password.validated = false;
 
     if (password == "") {
       newErrors.password.error = "Hey you left me empty!";
+      newErrors.password.validated = false;
     } else {
       newErrors.password.error = "";
       newErrors.password.validated = true;
@@ -70,11 +68,6 @@ function Login() {
         onPress={Keyboard.dismiss}
       >
         <View style={{ flex: 1 }}>
-          {/* Logo */}
-          <Image
-            source={Logo}
-            style={{ width: 173, height: 130, alignSelf: "center" }}
-          />
           {/* Email */}
           <CustomText style={styles.errorMessage}>
             {errors.email.error}
