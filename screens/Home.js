@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React from "react";
 // Components
 import Header from "../components/Header";
 import Products from "../components/Products";
@@ -12,9 +11,3 @@ export default function ({ navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

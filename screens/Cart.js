@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, YellowBox } from "react-native";
 // UI Components
 import Button from "../components/UI/Button";
 import CustomText from "../components/UI/CustomText";
@@ -9,7 +9,11 @@ import CartItem from "../components/CartItem";
 import { connect } from "react-redux";
 import { getCartItems } from "../redux/selectors/cartItems";
 
-function Cart({ cartItems, cartTotal }) {
+YellowBox.ignoreWarnings([
+  "Non-serializable values were found in the navigation state",
+]);
+
+function Cart({ cartItems, cartTotal, navigation }) {
   // Cart component state
   const deliveryCharges = "10.00";
   const total = (Number(cartTotal) + Number(deliveryCharges)).toFixed(2);
@@ -74,7 +78,14 @@ function Cart({ cartItems, cartTotal }) {
           </CustomText>
         </View>
       </View>
-      <Button>Checkout</Button>
+      {/* Render Checkout */}
+      <Button
+        onPress={() => {
+          navigation.navigate("Checkout");
+        }}
+      >
+        Checkout
+      </Button>
     </View>
   );
 }
