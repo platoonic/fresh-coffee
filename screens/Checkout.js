@@ -7,7 +7,7 @@ import Button from "../components/UI/Button";
 import { connect } from "react-redux";
 import { getCartItems } from "../redux/selectors/cartItems";
 
-function Checkout({ cartTotal }) {
+function Checkout({ cartTotal, navigation }) {
   const total = (Number(cartTotal) + 10.0).toFixed(2);
   return (
     <View style={styles.container}>
@@ -21,7 +21,13 @@ function Checkout({ cartTotal }) {
           </CustomText>
         </View>
       </View>
-      <Button>Login</Button>
+      <Button
+        onPress={() => {
+          navigation.navigate("Login");
+        }}
+      >
+        Login
+      </Button>
       <Button color="darkGreen">Continue as a Guest</Button>
       <TouchableOpacity style={styles.register}>
         <CustomText style={styles.registerAnchor}>
