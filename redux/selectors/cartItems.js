@@ -12,9 +12,18 @@ const calculateTotal = (cartItems) => {
   return totalPrice.toFixed(2);
 };
 
+// Count the number of items in cart
+const countItems = (cartItems) => {
+  const count = cartItems.reduce((acc, item) => {
+    return acc + item.quantity;
+  }, 0);
+  return count;
+};
+
 export const getCartItems = createSelector([cartItems], (cartItems) => {
   return {
     cartItems,
     cartTotal: calculateTotal(cartItems),
+    cartCount: countItems(cartItems),
   };
 });
