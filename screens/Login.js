@@ -12,8 +12,13 @@ import Button from "../components/UI/Button";
 import TextField from "../components/UI/TextField";
 // Images
 import Logo from "../assets/logo.png";
+// Redux
+import { connect } from "react-redux";
+import { login } from "../redux/actions/user";
 
-function Login() {
+function Login({ login }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
     email: { error: "", validated: false },
     password: { error: "", validated: false },
@@ -21,7 +26,7 @@ function Login() {
   const [formDisabled, setFormDisabled] = useState(true);
 
   // Email Validation
-  const validateEmail = (email) => {
+  const validateEmail = () => {
     let newErrors = Object.assign({}, errors);
     newErrors.email.validated = false;
 
@@ -38,7 +43,7 @@ function Login() {
   };
 
   // Password Validation
-  const validatePassword = (password) => {
+  const validatePassword = () => {
     let newErrors = Object.assign({}, errors);
     newErrors.password.validated = false;
 
@@ -81,7 +86,11 @@ function Login() {
           </CustomText>
           <TextField
             onBlur={(e) => {
-              validateEmail(e.nativeEvent.text);
+              validateEmail();
+            }}
+            onChangeText={(email) => {
+              setEmail(email);
+              validateEmail();
             }}
             placeholder="Email"
             customStyles={{ marginVertical: 0 }}
@@ -92,14 +101,36 @@ function Login() {
           </CustomText>
           <TextField
             onBlur={(e) => {
-              validatePassword(e.nativeEvent.text);
+              validatePassword();
+            }}
+            onChangeText={(password) => {
+              setPassword(password);
+              validatePassword();
             }}
             placeholder="Password"
             customStyles={{ marginVertical: 0 }}
             secureTextEntry
           />
           {/* Login Button */}
-          <Button customStyles={{ marginTop: 20 }} disabled={formDisabled}>
+          <Button
+            customStyles={{ marginTop: 20 }}
+            disabled={formDisabled}
+            onPress={() => {
+              // This data should come from the backend!
+              const user = {
+                email,
+                name: "Khalid Magdy Khalil",
+                address: {
+                  governate: "Alexandria",
+                  area: "Al Labban",
+                  addressLine1: "Add. Line 1",
+                  addressLine2: "Add. Line 2",
+                  phoneNumber: "1149050646",
+                },
+              };
+              login(user);
+            }}
+          >
             Login
           </Button>
         </View>
@@ -122,4 +153,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (user) => {
+    dispatch(login(user));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Login);

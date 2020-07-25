@@ -7,6 +7,7 @@ export default function ({
   placeholder,
   customStyles,
   secureTextEntry,
+  onChangeText,
 }) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
@@ -35,6 +36,9 @@ export default function ({
       onBlur={(e) => {
         setIsFocused(false);
         if (onBlur) onBlur(e);
+      }}
+      onChangeText={(text) => {
+        if (onChangeText) onChangeText(text);
       }}
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
