@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 // UI Components
 import CustomText from "../components/UI/CustomText";
 // RN Pickr
@@ -20,6 +20,18 @@ function CartItem({
   changeQuantity,
   removeFromCart,
 }) {
+  const removeFromCartAlert = () => {
+    Alert.alert("Remove " + name + "?", "", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Remove",
+        onPress: () => removeFromCart(id),
+      },
+    ]);
+  };
   const maximumQuantity = 10;
   return (
     <View style={styles.item} key={id}>
@@ -47,7 +59,7 @@ function CartItem({
           }}
         />
       </View>
-      <TouchableOpacity onPress={() => removeFromCart(id)}>
+      <TouchableOpacity onPress={() => removeFromCartAlert()}>
         <MaterialCommunityIcons name="delete" size={24} style={styles.remove} />
       </TouchableOpacity>
       <View style={styles.price}>
