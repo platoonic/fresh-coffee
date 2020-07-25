@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
-export default function ({ placeholder }) {
+export default function ({
+  onBlur,
+  placeholder,
+  customStyles,
+  secureTextEntry,
+}) {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
@@ -23,14 +28,16 @@ export default function ({ placeholder }) {
 
   return (
     <TextInput
-      style={[styles.input, buttonStyle, buttonFont]}
+      style={[styles.input, buttonStyle, buttonFont, customStyles]}
       onFocus={() => {
         setIsFocused(true);
       }}
-      onBlur={() => {
+      onBlur={(e) => {
         setIsFocused(false);
+        if (onBlur) onBlur(e);
       }}
       placeholder={placeholder}
+      secureTextEntry={secureTextEntry}
     />
   );
 }
