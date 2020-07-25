@@ -1,25 +1,32 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 // UI Components
-import Buttom from "../components/UI/Button";
-// Custom Font (FuturaBT)
-import { useFonts } from "expo-font";
+import Button from "../components/UI/Button";
+import CustomText from "../components/UI/CustomText";
+// Redux
+import { connect } from "react-redux";
+import { addToCart } from "../redux/actions/cart";
+import { getCartItems } from "../redux/selectors/cartItems";
+// utils
+import addToCartAlert from "./utils/addToCartAlert";
 
-export default function ({ name, price, image }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../assets/fonts/FuturaBT-Medium.ttf"),
-  });
+function Product({ id, name, price, image, addToCart, cartTotal }) {
+  const addItemToCart = () => {
+    const item = {
+      id,
+      name,
+      price,
+      quantity: 1,
+    };
+    addToCartAlert(item, cartTotal, addToCart);
+  };
 
-  const FuturaBT = {};
-
-  if (fontsLoaded) FuturaBT.fontFamily = "FuturaBT-Medium";
   return (
     <View style={styles.container}>
       <Image source={image} style={{ width: 111, height: 170 }} />
-      <Text style={[styles.name, FuturaBT]}>{name}</Text>
-      <Text style={[styles.price, FuturaBT]}>{price}</Text>
-      <Buttom>Add to Cart</Buttom>
+      <CustomText style={styles.name}>{name}</CustomText>
+      <CustomText style={styles.price}>${price}</CustomText>
+      <Button onPress={() => addItemToCart()}>Add to Cart</Button>
     </View>
   );
 }
@@ -42,3 +49,16 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
+
+const mapStateToProps = (state) => {
+  const { cartTotal } = getCartItems(state);
+  return {
+    cartTotal,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (item) => dispatch(addToCart(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

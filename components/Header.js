@@ -6,7 +6,7 @@ import Logo from "../assets/logo.png";
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-export default function ({ showControls }) {
+export default function ({ showControls, navigation }) {
   return (
     <View style={styles.header}>
       {showControls && (
@@ -14,7 +14,12 @@ export default function ({ showControls }) {
           <TouchableOpacity style={[styles.icon, styles.barsIcon]}>
             <FontAwesome name="bars" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.icon, styles.cartIcon]}>
+          <TouchableOpacity
+            style={[styles.icon, styles.cartIcon]}
+            onPress={() => {
+              navigation.navigate("Cart");
+            }}
+          >
             <Feather name="shopping-cart" size={24} color="black" />
           </TouchableOpacity>
         </View>

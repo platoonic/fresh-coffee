@@ -10,23 +10,27 @@ import { FlatList } from "react-native";
 export default function () {
   const products = [
     {
+      id: 1,
       name: "Espresso",
-      price: "$11.00",
+      price: "11.00",
       image: CoffeeCup01,
     },
     {
+      id: 2,
       name: "Cappuccino",
-      price: "$14.00",
+      price: "14.00",
       image: CoffeeCup01,
     },
     {
+      id: 3,
       name: "Flat White",
-      price: "$15",
+      price: "15.00",
       image: CoffeeCup01,
     },
     {
+      id: 4,
       name: "Mocha",
-      price: "$14.00",
+      price: "14.00",
       image: CoffeeCup01,
     },
   ];
@@ -38,7 +42,12 @@ export default function () {
       keyExtractor={(item) => item.name}
       renderItem={({ item }) => {
         return (
-          <Product name={item.name} price={item.price} image={item.image} />
+          <Product
+            id={item.id}
+            name={item.name}
+            price={item.price}
+            image={item.image}
+          />
         );
       }}
       ListHeaderComponent={FeaturedProducts}
@@ -48,7 +57,8 @@ export default function () {
 
 const styles = StyleSheet.create({
   products: {
-    marginTop: 30,
+    paddingTop: 30,
     paddingBottom: 50,
+    backgroundColor: "white",
   },
 });

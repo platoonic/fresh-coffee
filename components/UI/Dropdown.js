@@ -1,30 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
-import { useFonts } from "expo-font";
+// Icons
 import { Entypo } from "@expo/vector-icons";
+// UI Components
+import CustomText from "./CustomText";
 
 // Dropdown Item
 const Item = ({ name, setIsExpanded, setCurrentItem }) => {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
-  });
-
-  // Add custom font (Use default system font until the font loads)
-  let buttonFont = {
-    fontSize: 16,
-    color: "white",
-  };
-
-  if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
-
   return (
     <TouchableOpacity
       style={styles.item}
@@ -33,7 +21,9 @@ const Item = ({ name, setIsExpanded, setCurrentItem }) => {
         setIsExpanded(false);
       }}
     >
-      <Text style={buttonFont}>{name}</Text>
+      <CustomText style={[styles.CustomTextStyle, { color: "white" }]}>
+        {name}
+      </CustomText>
     </TouchableOpacity>
   );
 };
@@ -51,19 +41,9 @@ function buildObjectsFromItems(items) {
 
 // Dropdown Menu
 export default function ({ title, items }) {
-  // Custom Font (FuturaBT)
-  const [fontsLoaded] = useFonts({
-    "FuturaBT-Medium": require("../../assets/fonts/FuturaBT-Medium.ttf"),
-  });
-
   // Dropdown State
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentItem, setCurrentItem] = useState("");
-
-  // Add custom font (Use default system font until the font loads)
-  let buttonFont = {};
-
-  if (fontsLoaded) buttonFont.fontFamily = "FuturaBT-Medium";
 
   // Chevron switch based on expanded or not
   const chevronIconName = isExpanded ? "chevron-thin-up" : "chevron-thin-down";
@@ -83,7 +63,7 @@ export default function ({ title, items }) {
         }}
       >
         <View style={styles.container}>
-          <Text style={[styles.textStyle, buttonFont]}>{currentItem}</Text>
+          <CustomText style={styles.CustomTextStyle}>{currentItem}</CustomText>
           {items.length > 0 && (
             <Entypo
               name={chevronIconName}
@@ -132,7 +112,7 @@ const styles = StyleSheet.create({
     shadowRadius: 15.65,
     elevation: 8,
   },
-  textStyle: {
+  CustomTextStyle: {
     color: "#8A8A8A",
     fontSize: 16,
   },
