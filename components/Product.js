@@ -6,8 +6,11 @@ import CustomText from "../components/UI/CustomText";
 // Redux
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions/cart";
+import { getCartItems } from "../redux/selectors/cartItems";
+// utils
+import addToCartAlert from "./utils/addToCartAlert";
 
-function Product({ id, name, price, image, addToCart }) {
+function Product({ id, name, price, image, addToCart, cartTotal }) {
   const addItemToCart = () => {
     const item = {
       id,
@@ -15,7 +18,7 @@ function Product({ id, name, price, image, addToCart }) {
       price,
       quantity: 1,
     };
-    addToCart(item);
+    addToCartAlert(item, cartTotal, addToCart);
   };
 
   return (
@@ -47,8 +50,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = (state) => {
+  const { cartTotal } = getCartItems(state);
+  return {
+    cartTotal,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   addToCart: (item) => dispatch(addToCart(item)),
 });
 
-export default connect(null, mapDispatchToProps)(Product);
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

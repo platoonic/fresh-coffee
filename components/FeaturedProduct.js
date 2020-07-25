@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Alert } from "react-native";
 // Helpers
 import { LinearGradient } from "expo-linear-gradient";
 // UI Components
@@ -8,8 +8,11 @@ import CustomText from "./UI/CustomText";
 // Redux
 import { connect } from "react-redux";
 import { addToCart } from "../redux/actions/cart";
+import { getCartItems } from "../redux/selectors/cartItems";
+// utils
+import addToCartAlert from "./utils/addToCartAlert";
 
-function FeaturedProduct({ featuredItem, addToCart }) {
+function FeaturedProduct({ featuredItem, addToCart, cartTotal }) {
   const addItemToCart = () => {
     const item = {
       id: featuredItem.id,
@@ -17,7 +20,7 @@ function FeaturedProduct({ featuredItem, addToCart }) {
       price: featuredItem.price,
       quantity: 1,
     };
-    addToCart(item);
+    addToCartAlert(item, cartTotal, addToCart);
   };
 
   return (
@@ -104,8 +107,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = (state) => {
+  const { cartTotal } = getCartItems(state);
+  return {
+    cartTotal,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   addToCart: (item) => dispatch(addToCart(item)),
 });
 
-export default connect(null, mapDispatchToProps)(FeaturedProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(FeaturedProduct);
