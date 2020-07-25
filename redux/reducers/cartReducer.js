@@ -28,6 +28,12 @@ const cart = (state = [], action) => {
         return item;
       });
       return newState;
+    case "REMOVE_FROM_CART":
+      // Find the item in cart and remove it
+      newState = [...state].filter((item) => {
+        if (item.id !== action.itemID) return item;
+      });
+      return newState;
     default:
       return state;
   }

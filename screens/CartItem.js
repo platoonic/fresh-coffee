@@ -1,16 +1,25 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 // UI Components
 import CustomText from "../components/UI/CustomText";
 // RN Pickr
 import RNPickerSelect from "react-native-picker-select";
 // Icons
 import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 // Redux
 import { connect } from "react-redux";
 import { changeQuantity } from "../redux/actions/cart";
+import { removeFromCart } from "../redux/actions/cart";
 
-function CartItem({ id, name, quantity, price, changeQuantity }) {
+function CartItem({
+  id,
+  name,
+  quantity,
+  price,
+  changeQuantity,
+  removeFromCart,
+}) {
   const maximumQuantity = 10;
   return (
     <View style={styles.item} key={id}>
@@ -38,6 +47,9 @@ function CartItem({ id, name, quantity, price, changeQuantity }) {
           }}
         />
       </View>
+      <TouchableOpacity onPress={() => removeFromCart(id)}>
+        <MaterialCommunityIcons name="delete" size={24} style={styles.remove} />
+      </TouchableOpacity>
       <View style={styles.price}>
         <CustomText style={{ fontSize: 17, textAlign: "right" }}>
           ${price}
@@ -58,12 +70,13 @@ const styles = StyleSheet.create({
     paddingTop: 7,
   },
   price: {
-    flex: 1,
+    flex: 0.8,
     textAlign: "right",
     paddingTop: 7,
   },
   quantity: {
     flex: 0.4,
+    marginLeft: 5,
     borderRadius: 20,
     backgroundColor: "#B4B590",
     paddingBottom: 7,
@@ -71,6 +84,11 @@ const styles = StyleSheet.create({
   chevronDown: {
     color: "#cbcca7",
     paddingTop: 9,
+  },
+  remove: {
+    color: "#bf6262",
+    paddingTop: 3,
+    marginLeft: 5,
   },
 });
 
@@ -92,6 +110,9 @@ const pickerStyles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
   changeQuantity: (itemID, newQuantity) => {
     dispatch(changeQuantity(itemID, newQuantity));
+  },
+  removeFromCart: (itemID) => {
+    dispatch(removeFromCart(itemID));
   },
 });
 
