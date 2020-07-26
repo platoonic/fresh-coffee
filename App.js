@@ -17,10 +17,13 @@ import { StatusBar } from "expo-status-bar";
 // Stack Navigation
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+// Drawer Navigation
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function App() {
+const Homescreen = () => {
   // Custom Font (FuturaBT)
   const [fontsLoaded] = useFonts({
     "FuturaBT-Medium": require("./assets/fonts/FuturaBT-Medium.ttf"),
@@ -29,8 +32,53 @@ export default function App() {
   const FuturaBT = {};
 
   if (fontsLoaded) FuturaBT.fontFamily = "FuturaBT-Medium";
+  return (
+    <>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
+        <Stack.Screen
+          name="Checkout"
+          component={Checkout}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
+        <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
+      </Stack.Navigator>
+      <StatusBar style="dark" />
+    </>
+  );
+};
 
-  // App component
+export default function App() {
   // REFECTOR HERE to save location in Redux store
   const [deliveryLocation, setDeliveryLocation] = useState(null);
 
@@ -45,46 +93,12 @@ export default function App() {
   return (
     <Provider store={Store}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Cart"
-            component={Cart}
-            options={{
-              headerStyle: styles.header,
-              headerTitleStyle: FuturaBT,
-            }}
-          />
-          <Stack.Screen
-            name="Checkout"
-            component={Checkout}
-            options={{
-              headerStyle: styles.header,
-              headerTitleStyle: FuturaBT,
-            }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerStyle: styles.header,
-              headerTitleStyle: FuturaBT,
-            }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={Signup}
-            options={{
-              headerStyle: styles.header,
-              headerTitleStyle: FuturaBT,
-            }}
-          />
-        </Stack.Navigator>
-        <StatusBar style="dark" />
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={Homescreen} />
+          <Drawer.Screen name="Login">
+            {(props) => <Login {...props} showHeader />}
+          </Drawer.Screen>
+        </Drawer.Navigator>
       </NavigationContainer>
     </Provider>
   );
