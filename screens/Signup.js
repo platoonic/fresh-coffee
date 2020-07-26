@@ -200,6 +200,7 @@ function Signup({ login, showHeader, navigation }) {
                   name: fullName,
                 };
                 login(user);
+                navigation.navigate("Address Information");
               }}
             >
               Create a new Account

@@ -17,8 +17,9 @@ import Logo from "../assets/logo.png";
 // Redux
 import { connect } from "react-redux";
 import { login } from "../redux/actions/user";
+import { addAddress } from "../redux/actions/user";
 
-function Login({ login, showHeader, navigation }) {
+function Login({ login, showHeader, navigation, addAddress }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
@@ -127,15 +128,16 @@ function Login({ login, showHeader, navigation }) {
                 const user = {
                   email,
                   name: "Khalid Magdy Khalil",
-                  address: {
-                    governate: "Alexandria",
-                    area: "Al Labban",
-                    addressLine1: "Add. Line 1",
-                    addressLine2: "Add. Line 2",
-                    phoneNumber: "1149050646",
-                  },
+                };
+                const address = {
+                  governate: "Alexandria",
+                  area: "Al Labban",
+                  addressLine1: "Add. Line 1",
+                  addressLine2: "Add. Line 2",
+                  phoneNumber: "1149050646",
                 };
                 login(user);
+                addAddress(address);
               }}
             >
               Login
@@ -164,6 +166,9 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
   login: (user) => {
     dispatch(login(user));
+  },
+  addAddress: (address) => {
+    dispatch(addAddress(address));
   },
 });
 

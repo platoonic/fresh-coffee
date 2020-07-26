@@ -10,6 +10,7 @@ import Cart from "./screens/Cart";
 import Checkout from "./screens/Checkout";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
+import AddressInformation from "./screens/AddressInformation";
 // Custom Fonts
 import { useFonts } from "expo-font";
 // Icons
@@ -69,6 +70,14 @@ const Homescreen = () => {
         <Stack.Screen
           name="Signup"
           component={Signup}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
+        <Stack.Screen
+          name="Address Information"
+          component={AddressInformation}
           options={{
             headerStyle: styles.header,
             headerTitleStyle: FuturaBT,
