@@ -12,6 +12,8 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 // Custom Fonts
 import { useFonts } from "expo-font";
+// Icons
+import { Feather } from "@expo/vector-icons";
 // Status Bar
 import { StatusBar } from "expo-status-bar";
 // Stack Navigation
@@ -79,6 +81,14 @@ const Homescreen = () => {
 };
 
 export default function App() {
+  // Custom Font (FuturaBT)
+  const [fontsLoaded] = useFonts({
+    "FuturaBT-Medium": require("./assets/fonts/FuturaBT-Medium.ttf"),
+  });
+
+  const FuturaBT = {};
+
+  if (fontsLoaded) FuturaBT.fontFamily = "FuturaBT-Medium";
   // REFECTOR HERE to save location in Redux store
   const [deliveryLocation, setDeliveryLocation] = useState(null);
 
@@ -93,10 +103,45 @@ export default function App() {
   return (
     <Provider store={Store}>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
-          <Drawer.Screen name="Home" component={Homescreen} />
-          <Drawer.Screen name="Login">
+        <Drawer.Navigator
+          initialRouteName="Home"
+          drawerStyle={styles.drawer}
+          drawerContentOptions={{
+            itemStyle: styles.drawerItem,
+            labelStyle: [FuturaBT, styles.drawerItemLabel],
+            activeBackgroundColor: "#fff",
+            activeTintColor: "black",
+            contentContainerStyle: styles.drawerItemContainer,
+          }}
+        >
+          <Drawer.Screen
+            name="Home"
+            component={Homescreen}
+            options={{
+              drawerIcon: () => {
+                return <Feather name="home" size={24} />;
+              },
+            }}
+          />
+          <Drawer.Screen
+            name="Login"
+            options={{
+              drawerIcon: () => {
+                return <Feather name="user" size={24} />;
+              },
+            }}
+          >
             {(props) => <Login {...props} showHeader />}
+          </Drawer.Screen>
+          <Drawer.Screen
+            name="Signup"
+            options={{
+              drawerIcon: () => {
+                return <Feather name="coffee" size={24} />;
+              },
+            }}
+          >
+            {(props) => <Signup {...props} showHeader />}
           </Drawer.Screen>
         </Drawer.Navigator>
       </NavigationContainer>
@@ -111,5 +156,25 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 0,
     },
+  },
+  drawer: {
+    backgroundColor: "#F9F9F9",
+  },
+  drawerItem: {
+    padding: 15,
+    borderRadius: 50,
+  },
+  drawerItemContainer: {
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 10.65,
+    elevation: 8,
+  },
+  drawerItemLabel: {
+    fontSize: 17,
   },
 });

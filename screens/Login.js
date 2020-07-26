@@ -76,7 +76,7 @@ function Login({ login, showHeader, navigation }) {
       {showHeader && <Header showControls navigation={navigation} />}
       <View style={styles.container}>
         <TouchableWithoutFeedback
-          style={{ flex: 1, backgroundColor: "red" }}
+          style={{ flex: 1 }}
           onPress={Keyboard.dismiss}
         >
           <View style={{ flex: 1 }}>
