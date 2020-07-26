@@ -195,7 +195,7 @@ function Signup({ login }) {
               login(user);
             }}
           >
-            Signup
+            Create a new Account
           </Button>
         </View>
       </TouchableWithoutFeedback>
