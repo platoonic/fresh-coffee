@@ -9,6 +9,7 @@ import Home from "./screens/Home";
 import Cart from "./screens/Cart";
 import Checkout from "./screens/Checkout";
 import Login from "./screens/Login";
+import Signup from "./screens/Signup";
 // Custom Fonts
 import { useFonts } from "expo-font";
 // Status Bar
@@ -69,6 +70,14 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={Login}
+            options={{
+              headerStyle: styles.header,
+              headerTitleStyle: FuturaBT,
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
             options={{
               headerStyle: styles.header,
               headerTitleStyle: FuturaBT,
