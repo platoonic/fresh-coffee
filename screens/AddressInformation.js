@@ -12,11 +12,15 @@ import TextField from "../components/UI/TextField";
 import Dropdown from "../components/UI/Dropdown";
 // Redux
 import { connect } from "react-redux";
-import { login } from "../redux/actions/user";
+import { addAddress } from "../redux/actions/user";
 // Supported Delivery Locations
 import supported_locations from "../components/utils/supportedLocations";
 
-function AddressInformation({ navigation, user }) {
+function AddressInformation({ navigation, addAddress, user }) {
+  let userLoggedIn = true;
+  if (Object.keys(user).length == 0) {
+    userLoggedIn = false;
+  }
   const [fullName, setFullName] = useState("");
   const [governate, setGovernate] = useState("");
   const [area, setArea] = useState("");
@@ -115,21 +119,25 @@ function AddressInformation({ navigation, user }) {
           onPress={Keyboard.dismiss}
         >
           <View style={{ flex: 1 }}>
-            {/* Name */}
-            <CustomText style={styles.errorMessage}>
-              {errors.fullName.error}
-            </CustomText>
-            <TextField
-              onBlur={(e) => {
-                validateFullName();
-              }}
-              onChangeText={(name) => {
-                setFullName(name);
-                validateFullName();
-              }}
-              placeholder="Full Name"
-              customStyles={{ marginVertical: 0 }}
-            />
+            {/* Name (only if guest) */}
+            {!userLoggedIn && (
+              <>
+                <CustomText style={styles.errorMessage}>
+                  {errors.fullName.error}
+                </CustomText>
+                <TextField
+                  onBlur={(e) => {
+                    validateFullName();
+                  }}
+                  onChangeText={(name) => {
+                    setFullName(name);
+                    validateFullName();
+                  }}
+                  placeholder="Full Name"
+                  customStyles={{ marginVertical: 0 }}
+                />
+              </>
+            )}
             {/* Governate */}
             <Dropdown
               title="Governate"
@@ -162,7 +170,6 @@ function AddressInformation({ navigation, user }) {
               }}
               placeholder="Address Line 1"
               customStyles={{ marginVertical: 0 }}
-              secureTextEntry
             />
             {/* Address Line 2 */}
             <CustomText style={styles.errorMessage}>
@@ -178,38 +185,42 @@ function AddressInformation({ navigation, user }) {
               }}
               placeholder="Address Line 2"
               customStyles={{ marginVertical: 0 }}
-              secureTextEntry
             />
             {/* Phone Number */}
             <CustomText style={styles.errorMessage}>
               {errors.phoneNumber.error}
             </CustomText>
-            <TextField
-              onBlur={(e) => {
-                validatePhoneNumber();
-              }}
-              onChangeText={(phoneNumber) => {
-                setPhoneNumber(phoneNumber);
-                validatePhoneNumber();
-              }}
-              placeholder="Phone Number"
-              customStyles={{ marginVertical: 0 }}
-              secureTextEntry
-            />
+            <View>
+              <CustomText style={styles.countryCode}>+20</CustomText>
+              <TextField
+                onBlur={(e) => {
+                  validatePhoneNumber();
+                }}
+                onChangeText={(phoneNumber) => {
+                  setPhoneNumber(phoneNumber);
+                  validatePhoneNumber();
+                }}
+                placeholder="Phone Number"
+                customStyles={{ marginVertical: 0, paddingLeft: 50 }}
+              />
+            </View>
             {/* Login Button */}
             <Button
               customStyles={{ marginTop: 20 }}
               disabled={formDisabled}
               onPress={() => {
-                // This data should come from the backend!
-                const user = {
-                  email,
-                  name: fullName,
+                const address = {
+                  fullName,
+                  governate,
+                  area,
+                  addressLine1,
+                  addressLine2,
+                  phoneNumber,
                 };
-                login(user);
+                addAddress(address);
               }}
             >
-              Add Address
+              Continue to Payment
             </Button>
           </View>
         </TouchableWithoutFeedback>
@@ -230,8 +241,22 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingVertical: 5,
   },
+  countryCode: {
+    position: "absolute",
+    zIndex: 99,
+    top: 19,
+    left: 12,
+  },
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapStateToProps = (state) => ({
+  user: state.userReducer,
+});
 
-export default connect(null, mapDispatchToProps)(AddressInformation);
+const mapDispatchToProps = (dispatch) => ({
+  addAddress: (address) => {
+    dispatch(addAddress(address));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressInformation);
