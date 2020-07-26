@@ -12,12 +12,12 @@ import { Entypo } from "@expo/vector-icons";
 import CustomText from "./CustomText";
 
 // Dropdown Item
-const Item = ({ name, setIsExpanded, setCurrentItem }) => {
+const Item = ({ name, value, setIsExpanded, setCurrentItem }) => {
   return (
     <TouchableOpacity
       style={styles.item}
       onPress={() => {
-        setCurrentItem(name);
+        setCurrentItem(name, value);
         setIsExpanded(false);
       }}
     >
@@ -40,10 +40,10 @@ function buildObjectsFromItems(items) {
 }
 
 // Dropdown Menu
-export default function ({ title, items }) {
+export default function ({ title, items, customStyle, onChange }) {
   // Dropdown State
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setItem] = useState("");
 
   // Chevron switch based on expanded or not
   const chevronIconName = isExpanded ? "chevron-thin-up" : "chevron-thin-down";
@@ -51,8 +51,14 @@ export default function ({ title, items }) {
   // Convert items array to object array (to append value property)
   const itemsObject = buildObjectsFromItems(items);
 
+  // onChange
+  const setCurrentItem = (name, value) => {
+    if (onChange) onChange(value);
+    setItem(name);
+  };
+
   useEffect(() => {
-    setCurrentItem(title);
+    setItem(title);
   }, [title]);
 
   return (
@@ -62,7 +68,7 @@ export default function ({ title, items }) {
           setIsExpanded(!isExpanded);
         }}
       >
-        <View style={styles.container}>
+        <View style={[styles.container, customStyle]}>
           <CustomText style={styles.CustomTextStyle}>{currentItem}</CustomText>
           {items.length > 0 && (
             <Entypo
@@ -87,6 +93,7 @@ export default function ({ title, items }) {
                   setCurrentItem={setCurrentItem}
                   setIsExpanded={setIsExpanded}
                   name={item.name}
+                  value={item.value}
                 />
               );
             }}

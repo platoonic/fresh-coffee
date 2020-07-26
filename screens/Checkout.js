@@ -28,7 +28,12 @@ function Checkout({ cartTotal, navigation }) {
       >
         Login
       </Button>
-      <Button color="darkGreen">Continue as a Guest</Button>
+      <Button
+        color="darkGreen"
+        onPress={() => navigation.navigate("Address Information")}
+      >
+        Continue as a Guest
+      </Button>
       <TouchableOpacity
         style={styles.register}
         onPress={() => navigation.navigate("Signup")}
