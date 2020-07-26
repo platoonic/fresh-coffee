@@ -16,7 +16,10 @@ function Header({ showControls, navigation, cartCount }) {
     <View style={styles.header}>
       {showControls && (
         <View style={styles.icons}>
-          <TouchableOpacity style={[styles.icon, styles.barsIcon]}>
+          <TouchableOpacity
+            style={[styles.icon, styles.barsIcon]}
+            onPress={() => navigation.openDrawer()}
+          >
             <FontAwesome name="bars" size={24} color="black" />
           </TouchableOpacity>
           {cartCount > 0 && (

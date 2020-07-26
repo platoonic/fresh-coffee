@@ -10,13 +10,15 @@ import {
 import CustomText from "../components/UI/CustomText";
 import Button from "../components/UI/Button";
 import TextField from "../components/UI/TextField";
+// Components
+import Header from "../components/Header";
 // Images
 import Logo from "../assets/logo.png";
 // Redux
 import { connect } from "react-redux";
 import { login } from "../redux/actions/user";
 
-function Login({ login }) {
+function Login({ login, showHeader, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({
@@ -69,73 +71,79 @@ function Login({ login }) {
   }, [errors]);
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback
-        style={{ flex: 1, backgroundColor: "red" }}
-        onPress={Keyboard.dismiss}
-      >
-        <View style={{ flex: 1 }}>
-          {/* Logo */}
-          <Image
-            source={Logo}
-            style={{ width: 173, height: 130, alignSelf: "center" }}
-          />
-          {/* Email */}
-          <CustomText style={styles.errorMessage}>
-            {errors.email.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validateEmail();
-            }}
-            onChangeText={(email) => {
-              setEmail(email);
-              validateEmail();
-            }}
-            placeholder="Email"
-            customStyles={{ marginVertical: 0 }}
-          />
-          {/* Password */}
-          <CustomText style={styles.errorMessage}>
-            {errors.password.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validatePassword();
-            }}
-            onChangeText={(password) => {
-              setPassword(password);
-              validatePassword();
-            }}
-            placeholder="Password"
-            customStyles={{ marginVertical: 0 }}
-            secureTextEntry
-          />
-          {/* Login Button */}
-          <Button
-            customStyles={{ marginTop: 20 }}
-            disabled={formDisabled}
-            onPress={() => {
-              // This data should come from the backend!
-              const user = {
-                email,
-                name: "Khalid Magdy Khalil",
-                address: {
-                  governate: "Alexandria",
-                  area: "Al Labban",
-                  addressLine1: "Add. Line 1",
-                  addressLine2: "Add. Line 2",
-                  phoneNumber: "1149050646",
-                },
-              };
-              login(user);
-            }}
-          >
-            Login
-          </Button>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+    <>
+      {/* Header (only when showHeader == true) */}
+      {showHeader && <Header showControls navigation={navigation} />}
+      <View style={styles.container}>
+        <TouchableWithoutFeedback
+          style={{ flex: 1 }}
+          onPress={Keyboard.dismiss}
+        >
+          <View style={{ flex: 1 }}>
+            {/* Logo */}
+            {!showHeader && (
+              <Image
+                source={Logo}
+                style={{ width: 173, height: 130, alignSelf: "center" }}
+              />
+            )}
+            {/* Email */}
+            <CustomText style={styles.errorMessage}>
+              {errors.email.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validateEmail();
+              }}
+              onChangeText={(email) => {
+                setEmail(email);
+                validateEmail();
+              }}
+              placeholder="Email"
+              customStyles={{ marginVertical: 0 }}
+            />
+            {/* Password */}
+            <CustomText style={styles.errorMessage}>
+              {errors.password.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validatePassword();
+              }}
+              onChangeText={(password) => {
+                setPassword(password);
+                validatePassword();
+              }}
+              placeholder="Password"
+              customStyles={{ marginVertical: 0 }}
+              secureTextEntry
+            />
+            {/* Login Button */}
+            <Button
+              customStyles={{ marginTop: 20 }}
+              disabled={formDisabled}
+              onPress={() => {
+                // This data should come from the backend!
+                const user = {
+                  email,
+                  name: "Khalid Magdy Khalil",
+                  address: {
+                    governate: "Alexandria",
+                    area: "Al Labban",
+                    addressLine1: "Add. Line 1",
+                    addressLine2: "Add. Line 2",
+                    phoneNumber: "1149050646",
+                  },
+                };
+                login(user);
+              }}
+            >
+              Login
+            </Button>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </>
   );
 }
 

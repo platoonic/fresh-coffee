@@ -10,13 +10,15 @@ import {
 import CustomText from "../components/UI/CustomText";
 import Button from "../components/UI/Button";
 import TextField from "../components/UI/TextField";
+// Components
+import Header from "../components/Header";
 // Images
 import Logo from "../assets/logo.png";
 // Redux
 import { connect } from "react-redux";
 import { login } from "../redux/actions/user";
 
-function Signup({ login }) {
+function Signup({ login, showHeader, navigation }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -109,97 +111,103 @@ function Signup({ login }) {
   }, [errors]);
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback
-        style={{ flex: 1, backgroundColor: "red" }}
-        onPress={Keyboard.dismiss}
-      >
-        <View style={{ flex: 1 }}>
-          {/* Logo */}
-          <Image
-            source={Logo}
-            style={{ width: 173, height: 130, alignSelf: "center" }}
-          />
-          {/* Name */}
-          <CustomText style={styles.errorMessage}>
-            {errors.fullName.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validateFullName();
-            }}
-            onChangeText={(name) => {
-              setFullName(name);
-              validateFullName();
-            }}
-            placeholder="Full Name"
-            customStyles={{ marginVertical: 0 }}
-          />
-          {/* Email */}
-          <CustomText style={styles.errorMessage}>
-            {errors.email.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validateEmail();
-            }}
-            onChangeText={(email) => {
-              setEmail(email);
-              validateEmail();
-            }}
-            placeholder="Email"
-            customStyles={{ marginVertical: 0 }}
-          />
-          {/* Password */}
-          <CustomText style={styles.errorMessage}>
-            {errors.password.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validatePassword();
-            }}
-            onChangeText={(password) => {
-              setPassword(password);
-              validatePassword();
-            }}
-            placeholder="Password"
-            customStyles={{ marginVertical: 0 }}
-            secureTextEntry
-          />
-          {/* Password Confirmation */}
-          <CustomText style={styles.errorMessage}>
-            {errors.passwordConfirm.error}
-          </CustomText>
-          <TextField
-            onBlur={(e) => {
-              validatePasswordConfirm();
-            }}
-            onChangeText={(passwordConfirm) => {
-              setPasswordConfirm(passwordConfirm);
-              validatePasswordConfirm();
-            }}
-            placeholder="Password Confirmation"
-            customStyles={{ marginVertical: 0 }}
-            secureTextEntry
-          />
-          {/* Login Button */}
-          <Button
-            customStyles={{ marginTop: 20 }}
-            disabled={formDisabled}
-            onPress={() => {
-              // This data should come from the backend!
-              const user = {
-                email,
-                name: fullName,
-              };
-              login(user);
-            }}
-          >
-            Create a new Account
-          </Button>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+    <>
+      {/* Header (only when showHeader == true) */}
+      {showHeader && <Header showControls navigation={navigation} />}
+      <View style={styles.container}>
+        <TouchableWithoutFeedback
+          style={{ flex: 1 }}
+          onPress={Keyboard.dismiss}
+        >
+          <View style={{ flex: 1 }}>
+            {/* Logo */}
+            {!showHeader && (
+              <Image
+                source={Logo}
+                style={{ width: 173, height: 130, alignSelf: "center" }}
+              />
+            )}
+            {/* Name */}
+            <CustomText style={styles.errorMessage}>
+              {errors.fullName.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validateFullName();
+              }}
+              onChangeText={(name) => {
+                setFullName(name);
+                validateFullName();
+              }}
+              placeholder="Full Name"
+              customStyles={{ marginVertical: 0 }}
+            />
+            {/* Email */}
+            <CustomText style={styles.errorMessage}>
+              {errors.email.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validateEmail();
+              }}
+              onChangeText={(email) => {
+                setEmail(email);
+                validateEmail();
+              }}
+              placeholder="Email"
+              customStyles={{ marginVertical: 0 }}
+            />
+            {/* Password */}
+            <CustomText style={styles.errorMessage}>
+              {errors.password.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validatePassword();
+              }}
+              onChangeText={(password) => {
+                setPassword(password);
+                validatePassword();
+              }}
+              placeholder="Password"
+              customStyles={{ marginVertical: 0 }}
+              secureTextEntry
+            />
+            {/* Password Confirmation */}
+            <CustomText style={styles.errorMessage}>
+              {errors.passwordConfirm.error}
+            </CustomText>
+            <TextField
+              onBlur={(e) => {
+                validatePasswordConfirm();
+              }}
+              onChangeText={(passwordConfirm) => {
+                setPasswordConfirm(passwordConfirm);
+                validatePasswordConfirm();
+              }}
+              placeholder="Password Confirmation"
+              customStyles={{ marginVertical: 0 }}
+              secureTextEntry
+            />
+            {/* Login Button */}
+            <Button
+              customStyles={{ marginTop: 20 }}
+              disabled={formDisabled}
+              onPress={() => {
+                // This data should come from the backend!
+                const user = {
+                  email,
+                  name: fullName,
+                };
+                login(user);
+              }}
+            >
+              Create a new Account
+            </Button>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </>
   );
 }
 
