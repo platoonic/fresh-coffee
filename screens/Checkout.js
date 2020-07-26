@@ -29,7 +29,10 @@ function Checkout({ cartTotal, navigation }) {
         Login
       </Button>
       <Button color="darkGreen">Continue as a Guest</Button>
-      <TouchableOpacity style={styles.register}>
+      <TouchableOpacity
+        style={styles.register}
+        onPress={() => navigation.navigate("Signup")}
+      >
         <CustomText style={styles.registerAnchor}>
           Create a new Account
         </CustomText>
