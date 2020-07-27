@@ -11,6 +11,7 @@ import Checkout from "./screens/Checkout";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import AddressInformation from "./screens/AddressInformation";
+import Payment from "./screens/Payment";
 // Custom Fonts
 import { useFonts } from "expo-font";
 // Icons
@@ -24,7 +25,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
 
 const Homescreen = () => {
   // Custom Font (FuturaBT)
@@ -83,11 +83,21 @@ const Homescreen = () => {
             headerTitleStyle: FuturaBT,
           }}
         />
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+          options={{
+            headerStyle: styles.header,
+            headerTitleStyle: FuturaBT,
+          }}
+        />
       </Stack.Navigator>
       <StatusBar style="dark" />
     </>
   );
 };
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   // Custom Font (FuturaBT)
