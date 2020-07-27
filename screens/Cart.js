@@ -13,7 +13,7 @@ YellowBox.ignoreWarnings([
   "Non-serializable values were found in the navigation state",
 ]);
 
-function Cart({ cartItems, cartTotal, navigation }) {
+function Cart({ cartItems, cartTotal, navigation, payment }) {
   // Cart component state
   const deliveryCharges = "10.00";
   const total = (Number(cartTotal) + Number(deliveryCharges)).toFixed(2);
@@ -30,7 +30,7 @@ function Cart({ cartItems, cartTotal, navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={!payment ? styles.container : {}}>
       {/* Render Cart Items */}
       <View style={styles.cartItems}>
         {cartItems.map((item) => {
@@ -78,14 +78,16 @@ function Cart({ cartItems, cartTotal, navigation }) {
           </CustomText>
         </View>
       </View>
-      {/* Render Checkout */}
-      <Button
-        onPress={() => {
-          navigation.navigate("Checkout");
-        }}
-      >
-        Checkout
-      </Button>
+      {/* Render Checkout (do not render while "payment" is true) */}
+      {!payment && (
+        <Button
+          onPress={() => {
+            navigation.navigate("Checkout");
+          }}
+        >
+          Checkout
+        </Button>
+      )}
     </View>
   );
 }

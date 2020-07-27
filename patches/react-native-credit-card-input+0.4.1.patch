@@ -1,0 +1,153 @@
+diff --git a/node_modules/react-native-credit-card-input/src/CCInput.js b/node_modules/react-native-credit-card-input/src/CCInput.js
+index dde3aec..ea3c288 100644
+--- a/node_modules/react-native-credit-card-input/src/CCInput.js
++++ b/node_modules/react-native-credit-card-input/src/CCInput.js
+@@ -33,6 +33,7 @@ export default class CCInput extends Component {
+     placeholderColor: PropTypes.string,
+ 
+     onFocus: PropTypes.func,
++    onBlur: PropTypes.func,
+     onChange: PropTypes.func,
+     onBecomeEmpty: PropTypes.func,
+     onBecomeValid: PropTypes.func,
+@@ -64,6 +65,7 @@ export default class CCInput extends Component {
+   focus = () => this.refs.input.focus();
+ 
+   _onFocus = () => this.props.onFocus(this.props.field);
++  _onBlur = () => this.props.onBlur(this.props.field);
+   _onChange = value => this.props.onChange(this.props.field, value);
+ 
+   render() {
+@@ -92,6 +94,7 @@ export default class CCInput extends Component {
+             placeholderTextColor={placeholderColor}
+             placeholder={placeholder}
+             value={value}
++            onBlur={this._onBlur}
+             onFocus={this._onFocus}
+             onChangeText={this._onChange} />
+         </View>
+diff --git a/node_modules/react-native-credit-card-input/src/CreditCardInput.js b/node_modules/react-native-credit-card-input/src/CreditCardInput.js
+index 44f43c8..c74f1fe 100644
+--- a/node_modules/react-native-credit-card-input/src/CreditCardInput.js
++++ b/node_modules/react-native-credit-card-input/src/CreditCardInput.js
+@@ -34,7 +34,7 @@ const s = StyleSheet.create({
+ });
+ 
+ const CVC_INPUT_WIDTH = 70;
+-const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH;
++const EXPIRY_INPUT_WIDTH = 90;
+ const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
+ const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
+ const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
+@@ -90,7 +90,7 @@ export default class CreditCardInput extends Component {
+     validColor: "",
+     invalidColor: "red",
+     placeholderColor: "gray",
+-    allowScroll: false,
++    allowScroll: true,
+     additionalInputsProps: {},
+   };
+ 
+@@ -103,22 +103,24 @@ export default class CreditCardInput extends Component {
+   _focus = field => {
+     if (!field) return;
+ 
+-    const scrollResponder = this.refs.Form.getScrollResponder();
+     const nodeHandle = ReactNative.findNodeHandle(this.refs[field]);
+ 
+     NativeModules.UIManager.measureLayoutRelativeToParent(nodeHandle,
+       e => { throw e; },
+       x => {
+-        scrollResponder.scrollTo({ x: Math.max(x - PREVIOUS_FIELD_OFFSET, 0), animated: true });
+         this.refs[field].focus();
+       });
+   }
+ 
++  _blur = field => {
++    if(!field) return;
++  }
++
+   _inputProps = field => {
+     const {
+       inputStyle, labelStyle, validColor, invalidColor, placeholderColor,
+       placeholders, labels, values, status,
+-      onFocus, onChange, onBecomeEmpty, onBecomeValid,
++      onBlur, onFocus, onChange, onBecomeEmpty, onBecomeValid,
+       additionalInputsProps,
+     } = this.props;
+ 
+@@ -133,7 +135,7 @@ export default class CreditCardInput extends Component {
+       value: values[field],
+       status: status[field],
+ 
+-      onFocus, onChange, onBecomeEmpty, onBecomeValid,
++      onFocus, onChange, onBecomeEmpty, onBecomeValid, onBlur,
+ 
+       additionalInputProps: additionalInputsProps[field],
+     };
+@@ -161,7 +163,6 @@ export default class CreditCardInput extends Component {
+           expiry={expiry}
+           cvc={cvc} />
+         <ScrollView ref="Form"
+-          horizontal
+           keyboardShouldPersistTaps="always"
+           scrollEnabled={allowScroll}
+           showsHorizontalScrollIndicator={false}
+diff --git a/node_modules/react-native-credit-card-input/src/LiteCreditCardInput.js b/node_modules/react-native-credit-card-input/src/LiteCreditCardInput.js
+index a5f166b..f4c5ff0 100644
+--- a/node_modules/react-native-credit-card-input/src/LiteCreditCardInput.js
++++ b/node_modules/react-native-credit-card-input/src/LiteCreditCardInput.js
+@@ -18,8 +18,6 @@ const INFINITE_WIDTH = 1000;
+ 
+ const s = StyleSheet.create({
+   container: {
+-    paddingLeft: 10,
+-    paddingRight: 10,
+     flexDirection: "row",
+     alignItems: "center",
+     overflow: "hidden",
+@@ -27,6 +25,9 @@ const s = StyleSheet.create({
+   icon: {
+     width: 48,
+     height: 40,
++    position:"absolute",
++    right:10,
++    top: 5,
+     resizeMode: "contain",
+   },
+   expanded: {
+@@ -151,10 +152,8 @@ export default class LiteCreditCardInput extends Component {
+           <CCInput {...this._inputProps("number")}
+             keyboardType="numeric"
+             containerStyle={s.numberInput} />
+-        </View>
+-        <TouchableOpacity onPress={showRightPart ? this._focusNumber : this._focusExpiry }>
+           <Image style={s.icon} source={Icons[this._iconToShow()]} />
+-        </TouchableOpacity>
++        </View>
+         <View style={[
+           s.rightPart,
+           showRightPart ? s.expanded : s.hidden,
+diff --git a/node_modules/react-native-credit-card-input/src/connectToState.js b/node_modules/react-native-credit-card-input/src/connectToState.js
+index cda7fc6..348899a 100644
+--- a/node_modules/react-native-credit-card-input/src/connectToState.js
++++ b/node_modules/react-native-credit-card-input/src/connectToState.js
+@@ -109,6 +109,10 @@ export default function connectToState(CreditCardInput) {
+       this.props.onFocus(field);
+     };
+ 
++    _onBlur = () => {
++      this.setState({ focused: "" });
++    }
++
+     render() {
+       return (
+         <CreditCardInput
+@@ -116,6 +120,7 @@ export default function connectToState(CreditCardInput) {
+           {...this.state}
+           onFocus={this._onFocus}
+           onChange={this._change}
++          onBlur={this._onBlur}
+           onBecomeEmpty={this._focusPreviousField}
+           onBecomeValid={this._focusNextField} />
+       );
